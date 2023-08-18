@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:test_pie_socket/model/message.dart';
 import 'package:test_pie_socket/page/contains.dart';
 
@@ -153,6 +156,17 @@ class InputChat extends StatefulWidget {
 
 class _InputChatState extends State<InputChat> {
   TextEditingController _controller = TextEditingController();
+
+  File? imageFile;
+  Future getImage() async {
+    ImagePicker _pick = ImagePicker();
+    await _pick.pickImage(source: ImageSource.gallery).then((value) {
+      if (value != null) {
+        imageFile = File(value.path);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,9 +176,14 @@ class _InputChatState extends State<InputChat> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            "assets/gallery.svg",
-            height: 24,
+          GestureDetector(
+            onTap: () {
+              getImage();
+            },
+            child: SvgPicture.asset(
+              "assets/gallery.svg",
+              height: 24,
+            ),
           ),
           SvgPicture.asset(
             "assets/link.svg",
