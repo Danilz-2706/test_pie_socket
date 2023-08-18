@@ -1,48 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:test_pie_socket/page/contains.dart';
 
 class SenderCard extends StatelessWidget {
   final String message;
-  final String? date;
+  final String date;
   const SenderCard({
     super.key,
     required this.message,
-    this.date,
+    required this.date,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 45),
-        child: Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          color: Colors.blue[200],
-          shadowColor: const Color.fromRGBO(0, 0, 0, 0.25),
-          margin: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 5,
-          ),
-          child: Stack(children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          date,
+          style: const TextStyle(
+              color: kTextGreyColors,
+              fontSize: 12,
+              fontWeight: FontWeight.w400),
+        ),
+        const SizedBox(width: 8),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width - 100),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                gradient: kLinearColor,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
                 message,
-                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: kTextWhiteColors,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
-          ]),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

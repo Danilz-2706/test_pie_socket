@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'message.g.dart';
-@JsonSerializable(nullable:true)
+
+@JsonSerializable()
 class Message {
   @JsonKey(name: 'message')
   final String? message;

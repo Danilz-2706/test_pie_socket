@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test_pie_socket/page/chat_list/chat_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_pie_socket/page/chat_detail/chat_detail_cubit.dart';
+
+import 'page/chat_list/chat_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,55 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: ChatList(),
-              ),
-              // BlocBuilder<DialogFlowBloc, DialogFlowState>(
-              //   builder: (context, state) {
-              //     if (state is DialogFlowLoading) {
-              //       return const SizedBox(
-              //         height: 70,
-              //         child: RiveAnimation.asset(
-              //             "assets/animations/anima_reply-ing.riv"),
-              //       );
-              //     }
-              //     return Container();
-              //   },
-              // ),
-              Row(
-                children: [
-                  InputTextChat(),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  SendButton(),
-                ],
-              ),
-            ],
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ChatDetailCubit>(
+            create: (_) => ChatDetailCubit()..getHistoryChat()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
         ),
+        home: const ChatListScreen(),
       ),
     );
   }
