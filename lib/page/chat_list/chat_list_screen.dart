@@ -53,7 +53,7 @@ class ChatListScreen extends StatelessWidget {
                 press: () {},
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Container(
               margin: const EdgeInsets.only(left: 28, right: 20),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

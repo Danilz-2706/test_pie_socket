@@ -152,7 +152,7 @@ class InputChat extends StatefulWidget {
 }
 
 class _InputChatState extends State<InputChat> {
-  TextEditingController input = TextEditingController();
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -177,18 +177,42 @@ class _InputChatState extends State<InputChat> {
               color: Color.fromRGBO(246, 246, 246, 1),
             ),
             child: TextField(
-              controller: input,
+              onChanged: (value) {
+                if (value.isNotEmpty) {
+                } else {}
+              },
+              controller: _controller,
+              maxLines: null,
+              minLines: null,
+              expands: true,
+              decoration: InputDecoration(
+                filled: true,
+                hintText: "Nhập nội dung chat",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 0,
+                  bottom: 0,
+                ),
+              ),
             ),
           ),
           GestureDetector(
             onTap: () {
               context.read<ChatDetailCubit>().addChat(
                     Message(
-                        message:
-                            "123123123123123123123123123123123123123123123123",
-                        time: "13:25",
+                        message: _controller.text,
+                        time: DateTime.now().toString(),
                         sender: true),
                   );
+              _controller.clear();
             },
             child: SizedBox(
               height: 32,

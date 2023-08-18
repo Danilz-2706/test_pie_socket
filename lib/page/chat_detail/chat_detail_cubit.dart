@@ -1,12 +1,13 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_pie_socket/repo/web_socket.dart';
 
 import '../../model/message.dart';
 
 part 'chat_detail_state.dart';
 
 class ChatDetailCubit extends Cubit<ChatDetailState> {
-  ChatDetailCubit() : super(ChatDetailInitial());
+  WebsocketRepo websocketRepo;
+  ChatDetailCubit({required this.websocketRepo}) : super(ChatDetailInitial());
 
   List<Message> list = [
     Message(
@@ -28,6 +29,7 @@ class ChatDetailCubit extends Cubit<ChatDetailState> {
     try {
       emit(LoadingHistoryChat());
       list.add(message);
+      websocketRepo.addData(message);
       emit(GetHistoryChat(listMessage: list));
     } catch (e) {
       emit(ErrorHistoryChat());

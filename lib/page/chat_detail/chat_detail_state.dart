@@ -1,7 +1,6 @@
 part of 'chat_detail_cubit.dart';
 
-@immutable
-sealed class ChatDetailState {}
+abstract class ChatDetailState {}
 
 final class ChatDetailInitial extends ChatDetailState {}
 
