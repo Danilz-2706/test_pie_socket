@@ -10,13 +10,13 @@ const kWhiteColors = Color.fromRGBO(255, 255, 255, 1);
 const kBlackColors = Color.fromRGBO(29, 29, 29, 1);
 
 const kLinearColor = LinearGradient(
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
   colors: [
     Color(0xFFE11A1A),
     Color(0xFFFF8D4E),
   ],
   stops: [0.1119, 0.8481],
-  transform: GradientRotation(
-      339 * 3.14 / 180), // Convert the angle from degrees to radians
+  // transform: GradientRotation(
+  //     339 * 3.14 / 180), // Convert the angle from degrees to radians
 );

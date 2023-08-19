@@ -15,6 +15,8 @@ class ChatDetailCubit extends Cubit<ChatDetailState> {
         time: "13:25",
         sender: true),
     Message(message: "1231231", time: "13:25", sender: false),
+    Message(message: "1231231", time: "13:25", sender: false),
+    Message(message: "1231231", time: "13:25", sender: false),
   ];
   void getHistoryChat() {
     try {
@@ -28,8 +30,8 @@ class ChatDetailCubit extends Cubit<ChatDetailState> {
   void addChat(Message message) {
     try {
       emit(LoadingHistoryChat());
-      list.add(message);
-      websocketRepo.addData(message);
+      list.insert(0, message);
+       websocketRepo.addMessage(message);
       emit(GetHistoryChat(listMessage: list));
     } catch (e) {
       emit(ErrorHistoryChat());

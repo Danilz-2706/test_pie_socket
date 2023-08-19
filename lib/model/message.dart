@@ -13,7 +13,11 @@ class Message {
   @JsonKey(name: 'sender')
   final bool? sender;
 
-  Message({this.message, this.time, this.sender});
+  Message({
+    this.message,
+    this.time,
+    this.sender,
+  });
 
   Map<String, dynamic> toJson() => _$MessageToJson(this);
 

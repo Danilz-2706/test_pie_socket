@@ -4,11 +4,13 @@ import 'package:test_pie_socket/page/contains.dart';
 class ReceiverCard extends StatelessWidget {
   final String message;
   final String date;
+  final bool onlyOnePerson;
 
   const ReceiverCard({
     Key? key,
     required this.message,
     required this.date,
+    required this.onlyOnePerson,
   }) : super(key: key);
 
   @override
@@ -16,11 +18,17 @@ class ReceiverCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Image.asset(
-          "assets/Oval.png",
+        SizedBox(
           height: 32,
           width: 32,
-          fit: BoxFit.contain,
+          child: onlyOnePerson
+              ? const SizedBox()
+              : Image.asset(
+                  "assets/Oval.png",
+                  height: 32,
+                  width: 32,
+                  fit: BoxFit.contain,
+                ),
         ),
         const SizedBox(width: 12),
         Align(

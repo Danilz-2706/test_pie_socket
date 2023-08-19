@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<WebsocketRepo>(
-          create: (_) => WebsocketRepo(
-            'wss://free.blr2.piesocket.com/v3/1?api_key=5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX&notify_self=1',
-          )..connectWebsocket(),
+          create: (_) => WebsocketRepo()..connectWebsocket(),
         ),
       ],
       child: MultiBlocProvider(

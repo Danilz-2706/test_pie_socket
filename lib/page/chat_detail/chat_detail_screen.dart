@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:test_pie_socket/model/message.dart';
 import 'package:test_pie_socket/page/contains.dart';
 
@@ -39,7 +41,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => scrollListToEnd());
+    WidgetsBinding.instance.addPostFrameCallback((_) => scrollListToEnd());
   }
 
   @override
@@ -86,6 +88,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(24),
                       child: ListView.builder(
+                        reverse: true,
                         itemCount: state.listMessage.length,
                         controller: scrollController,
                         shrinkWrap: true,
@@ -94,7 +97,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               state.listMessage[index].sender! &&
                               state.listMessage[index - 1].sender!) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
                                 message: state.listMessage[index].message!,
                                 date: state.listMessage[index].time!,
@@ -103,7 +106,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           }
                           if (state.listMessage[index].sender!) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 24),
+                              padding: const EdgeInsets.only(bottom: 24),
                               child: SenderCard(
                                 message: state.listMessage[index].message!,
                                 date: state.listMessage[index].time!,
@@ -114,16 +117,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               !state.listMessage[index].sender! &&
                               !state.listMessage[index - 1].sender!) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: ReceiverCard(
+                                onlyOnePerson: true,
                                 message: state.listMessage[index].message!,
                                 date: state.listMessage[index].time!,
                               ),
                             );
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(top: 24),
+                            padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              onlyOnePerson: false,
                               message: state.listMessage[index].message!,
                               date: state.listMessage[index].time!,
                             ),
@@ -155,16 +160,32 @@ class InputChat extends StatefulWidget {
 }
 
 class _InputChatState extends State<InputChat> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController controller = TextEditingController();
 
-  File? imageFile;
+  List<XFile>? imageFileList = [];
+  List<File>? files;
   Future getImage() async {
-    ImagePicker _pick = ImagePicker();
-    await _pick.pickImage(source: ImageSource.gallery).then((value) {
-      if (value != null) {
-        imageFile = File(value.path);
-      }
+    ImagePicker imagePicker = ImagePicker();
+    final List<XFile> imageFile =
+        await imagePicker.pickMultiImage().catchError((e) {
+      print(e);
     });
+    if (imageFile.isNotEmpty) {
+      imageFileList!.addAll(imageFile);
+      print(imageFileList);
+    }
+  }
+
+  Future getFile() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      files = result.paths.map((path) => File(path!)).toList();
+      print(files);
+    } else {
+      print("not choose file");
+    }
   }
 
   @override
@@ -185,9 +206,14 @@ class _InputChatState extends State<InputChat> {
               height: 24,
             ),
           ),
-          SvgPicture.asset(
-            "assets/link.svg",
-            height: 24,
+          GestureDetector(
+            onTap: () {
+              getFile();
+            },
+            child: SvgPicture.asset(
+              "assets/link.svg",
+              height: 24,
+            ),
           ),
           Container(
             width: 204,
@@ -200,7 +226,7 @@ class _InputChatState extends State<InputChat> {
                 if (value.isNotEmpty) {
                 } else {}
               },
-              controller: _controller,
+              controller: controller,
               maxLines: null,
               minLines: null,
               expands: true,
@@ -227,11 +253,11 @@ class _InputChatState extends State<InputChat> {
             onTap: () {
               context.read<ChatDetailCubit>().addChat(
                     Message(
-                        message: _controller.text,
-                        time: DateTime.now().toString(),
+                        message: controller.text,
+                        time: DateFormat('Hm').format(DateTime.now()),
                         sender: true),
                   );
-              _controller.clear();
+              controller.clear();
             },
             child: SizedBox(
               height: 32,
