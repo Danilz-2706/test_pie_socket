@@ -20,3 +20,5 @@ const kLinearColor = LinearGradient(
   // transform: GradientRotation(
   //     339 * 3.14 / 180), // Convert the angle from degrees to radians
 );
+
+const double kSpacing = 8.0;

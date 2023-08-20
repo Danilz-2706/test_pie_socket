@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:test_pie_socket/model/message.dart';
 import 'package:test_pie_socket/page/contains.dart';
 
+import '../../widget/app_bar_review.dart';
 import '../../widget/receiver_card.dart';
 import '../../widget/sender_card.dart';
 import '../chat_list/chat_list_screen.dart';
@@ -52,7 +53,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            NavigateChat(
+            AppBarReview(
               title: widget.name,
               avatar: "assets/Group.svg",
               press: () {
