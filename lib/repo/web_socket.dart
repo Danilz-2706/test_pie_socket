@@ -43,7 +43,6 @@ class WebsocketRepo {
       'event': 'message',
       'data': {'sender': _user1Id, 'text': "123"},
     };
-    print(_channel.toString());
     _channel.sink.add(json.decode(data.toString()));
   }
 
